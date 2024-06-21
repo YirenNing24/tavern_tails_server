@@ -1,0 +1,16 @@
+{
+  "name": "tavern_tails_server",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "^1.0.2",
+    "elysia": "^1.0.24",
+    "thirdweb": "^5.29.6"
+  }
+}
