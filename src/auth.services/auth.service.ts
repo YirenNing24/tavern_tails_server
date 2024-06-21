@@ -2,18 +2,18 @@
 import { Engine } from "@thirdweb-dev/engine";
 
 //**CONFIG IMPORT */
-import { ENGINE_ACCESS_TOKEN } from "../../config/constants";
+import { ENGINE_ACCESS_TOKEN } from "../config/constants";
 
 //**RETHINKDB IMPORT */
 import rt, { Cursor, type Connection } from "rethinkdb";
-import { getRethinkDB } from "../../db/rethink";
+import { getRethinkDB } from "../db/rethink";
 
 //**ARGON2 IMPORT */
 import { hash, verify } from "argon2";
 
 //**INTERFACE IMPORT */
 import type { LoginData, RegistrationData, SafeUserData, UserData } from "./auth.interface";
-import { SuccessMessage } from "../../config/output";
+import { SuccessMessage } from "../config/output";
 
 class AuthService {
 

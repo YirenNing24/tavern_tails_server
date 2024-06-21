@@ -24,5 +24,5 @@ const app = new Elysia()
 // Register your routes
 routes(app)
 
-// Export the app
+
 export default app;

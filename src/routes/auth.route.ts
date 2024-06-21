@@ -2,14 +2,14 @@
 import type { Elysia } from "elysia";
 
 //** SCHEMA IMPORT */
-import { loginSchema, registrationSchema } from "../user.services/auth.service/auth.schema";
+import { loginSchema, registrationSchema } from "../auth.services/auth.schema";
 
 //**SERVICE IMPORT */
-import AuthService from "../user.services/auth.service/auth.service";
+import AuthService from "../auth.services/auth.service";
 
 //** OUTPUT IMPORT */
 import { SuccessMessage } from "../config/output";
-import type { SafeUserData } from "../user.services/auth.service/auth.interface";
+import type { SafeUserData } from "../auth.services/auth.interface";
 
 const auth = (app: Elysia) => {
 	app.post('/api/v1/register/tails', async ({ body }): Promise<SuccessMessage> => {
