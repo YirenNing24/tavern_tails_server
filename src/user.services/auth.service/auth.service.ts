@@ -45,7 +45,7 @@ class AuthService {
 
             // Insert the new player data into the 'playerData' table in the 'beats' database
             await rt
-                .db('beats')
+                .db('players')
                 .table('playerData')
                 .insert(newPlayer)
                 .run(connection);
@@ -66,8 +66,9 @@ class AuthService {
     private async createPlayerWallet(username: string): Promise<string> {
         try {
             const engine = new Engine({
-                url: "http://0.0.0.0:3005",
-                accessToken: ENGINE_ACCESS_TOKEN,
+                url: "http://localhost:3005",
+                accessToken: "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIweEM4RmIxNUVkQTQ1OUJlQWJlNjgwMTE2NzFCMjUxNzYyZkU1QzlCMzMiLCJzdWIiOiIweDBBZkYxMEEyMjIwYWEyN2ZCZTgzQzY3NjkxM2FlYmViMzgwMURmQjYiLCJhdWQiOiJ0aGlyZHdlYi5jb20iLCJleHAiOjQ4NzI1NzMyMDIsIm5iZiI6MTcxODk3MzIwMiwiaWF0IjoxNzE4OTczMjAyLCJqdGkiOiI1MDI2NTM3ZC01MjdkLTQ3MWQtYjYzOS1iZmMzZTc2ZWI3N2QiLCJjdHgiOnsicGVybWlzc2lvbnMiOiJBRE1JTiJ9fQ.MHgzM2ExZjJlNTI3ZDY4MzQxNzQ4YzMwNjdkMGFkZTQzNDQxNzg0ZTIyNmVlY2I5NzU5YWYyMDFlZDU3ZmY2OTE0NjlmNjliNzFhNmMyMDQ3MzllZTBjZDdiZWY0M2U2NGZjYzY0ZWNlZjEyYmQzZjQwMzUwNGExYmMyMTE0YTVlMjFj",
+                
             });
 
             // Create a new backend wallet with the player's username as the label
@@ -98,7 +99,7 @@ class AuthService {
 
             // Retrieve the user data from the database
             const cursor: Cursor = await rt
-                .db('beats')
+                .db('players')
                 .table('playerData')
                 .filter({ userName })
                 .run(connection);

@@ -1,5 +1,5 @@
-import { ArbitrumSepolia } from "@thirdweb-dev/chains";
-import { SmartWalletConfig } from "@thirdweb-dev/wallets";
+// import { ArbitrumSepolia } from "@thirdweb-dev/chains";
+// import { SmartWalletConfig } from "@thirdweb-dev/wallets";
 
 
 // API Configuration
@@ -34,8 +34,8 @@ export const KDB: { host: string | undefined; port: string | number; password: s
 // Thirdweb SDK Configuration
 export const SECRET_KEY: string = process.env.SECRET_KEY || ""
 // Chain and Wallet Factory Configuration
-export const CHAIN: typeof ArbitrumSepolia  = ArbitrumSepolia;
-export const FACTORIES: Record<number, string> = { [ArbitrumSepolia.chainId]: "0x514f1d6B8d22911eE84f97eDececE0479e38E1b6" };
+// export const CHAIN: typeof ArbitrumSepolia  = ArbitrumSepolia;
+// export const FACTORIES: Record<number, string> = { [ArbitrumSepolia.chainId]: "0x514f1d6B8d22911eE84f97eDececE0479e38E1b6" };
 // Contract Addresses
 export const BEATS_TOKEN: string = '0xAA95DA3D6EbdAb099630b6d4Cf0fcb904a44C2ab';
 export const GMR_TOKEN: string = '0x7dce27C81b7e112018FA6C2e27f8444b5D39688B';
@@ -53,13 +53,13 @@ export const PRIVATE_KEY: string  = process.env.THIRDWEB_AUTH_PRIVATE_KEY || ""
 export const GOOGLE_CLIENT_ID: string  = process.env.GOOGLE_CLIENT_ID || ""
 export const GOOGLE_CLIENT_SECRET: string = process.env.GOOGLE_CLIENT_SECRET || ""
 
-const factoryAddress: string = FACTORIES[CHAIN.chainId];
-export const SMART_WALLET_CONFIG = {
-  chain: CHAIN,
-  factoryAddress,
-  gasless: true,
-  secretKey: SECRET_KEY,
-};
+// const factoryAddress: string = FACTORIES[CHAIN.chainId];
+// export const SMART_WALLET_CONFIG = {
+//   chain: CHAIN,
+//   factoryAddress,
+//   gasless: true,
+//   secretKey: SECRET_KEY,
+// };
 
 
 export const ENGINE_ACCESS_TOKEN: string = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIweEM4RmIxNUVkQTQ1OUJlQWJlNjgwMTE2NzFCMjUxNzYyZkU1QzlCMzMiLCJzdWIiOiIweDBBZkYxMEEyMjIwYWEyN2ZCZTgzQzY3NjkxM2FlYmViMzgwMURmQjYiLCJhdWQiOiJ0aGlyZHdlYi5jb20iLCJleHAiOjQ4NzI1NTk4OTYsIm5iZiI6MTcxODk1OTg5NiwiaWF0IjoxNzE4OTU5ODk2LCJqdGkiOiI1NTAzZWE1My01ZWQ4LTRlMTctYjc4Zi1lM2VlODAxNTQ2OGMiLCJjdHgiOnsicGVybWlzc2lvbnMiOiJBRE1JTiJ9fQ.MHhhYmJmOGRiNDEzNjQ0ODY2NGIxNDFmZWE5NjM5MWQ1NjkwODY1NjI3NWVmYzc5NzYxMGU5NmZiODM0MGQzYWJlMTUwZTQ1ZDA5NGFiMDk5ZmRhNGJhY2Y1OTRkYTU2MTEzYmI0ZTEwNmRhMTViMDYwNjliYmFlZGIwNDVjM2RmODFi"
