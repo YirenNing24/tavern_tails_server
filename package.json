@@ -12,6 +12,7 @@
     "@elysiajs/cors": "^1.0.2",
     "@thirdweb-dev/engine": "^0.0.9",
     "@types/rethinkdb": "^2.3.21",
+    "argon2": "^0.40.3",
     "elysia": "^1.0.24",
     "rethinkdb": "^2.4.2",
     "thirdweb": "^5.29.6"
