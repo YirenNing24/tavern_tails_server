@@ -1,4 +1,4 @@
-import rt, { ConnectionOptions } from 'rethinkdb';
+import rt, { type ConnectionOptions } from 'rethinkdb';
 import { HOST, RDB_PORT } from '../config/constants';
 
 let rdbConn: rt.Connection | null = null;
