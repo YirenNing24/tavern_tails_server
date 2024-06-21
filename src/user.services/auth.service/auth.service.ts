@@ -16,6 +16,7 @@ import type { LoginData, RegistrationData, SafeUserData, UserData } from "./auth
 import { SuccessMessage } from "../../config/output";
 
 class AuthService {
+
     /**
      * Registers a new player with the given registration data.
      * @param {RegistrationData} registrationData - The data required for player registration.
@@ -27,6 +28,12 @@ class AuthService {
             const { username, password } = registrationData;
 
             const hashedPassword: string = await hash(password);
+
+            const usedUsername: boolean = await this.checkUsername(username);
+
+            if (usedUsername) {
+                throw new Error("Username is already used")
+            }
 
             // Create a new wallet for the player
             const walletAddress: string = await this.createPlayerWallet(username);
@@ -67,7 +74,7 @@ class AuthService {
         try {
             const engine = new Engine({
                 url: "http://localhost:3005",
-                accessToken: "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIweEM4RmIxNUVkQTQ1OUJlQWJlNjgwMTE2NzFCMjUxNzYyZkU1QzlCMzMiLCJzdWIiOiIweDBBZkYxMEEyMjIwYWEyN2ZCZTgzQzY3NjkxM2FlYmViMzgwMURmQjYiLCJhdWQiOiJ0aGlyZHdlYi5jb20iLCJleHAiOjQ4NzI1NzMyMDIsIm5iZiI6MTcxODk3MzIwMiwiaWF0IjoxNzE4OTczMjAyLCJqdGkiOiI1MDI2NTM3ZC01MjdkLTQ3MWQtYjYzOS1iZmMzZTc2ZWI3N2QiLCJjdHgiOnsicGVybWlzc2lvbnMiOiJBRE1JTiJ9fQ.MHgzM2ExZjJlNTI3ZDY4MzQxNzQ4YzMwNjdkMGFkZTQzNDQxNzg0ZTIyNmVlY2I5NzU5YWYyMDFlZDU3ZmY2OTE0NjlmNjliNzFhNmMyMDQ3MzllZTBjZDdiZWY0M2U2NGZjYzY0ZWNlZjEyYmQzZjQwMzUwNGExYmMyMTE0YTVlMjFj",
+                accessToken: ENGINE_ACCESS_TOKEN,
                 
             });
 
@@ -85,6 +92,35 @@ class AuthService {
     }
 
     /**
+     * Checks if a username already exists in the database.
+     * @param {string} username - The username to check for availability.
+     * @returns {Promise<boolean>} - Returns `true` if the username exists, `false` otherwise.
+     * @throws Will throw an error if the operation fails.
+     */
+    private async checkUsername(username: string): Promise<boolean> {
+        try {
+            const connection: Connection = await getRethinkDB();
+
+            // Check if the username already exists in the database
+            const cursor: Cursor = await rt
+            .db('players')
+            .table('playerData')
+            .filter({ username })
+            .run(connection);
+            const existingUser: UserData | null = await cursor.next();
+
+            if (existingUser) {
+                return true
+            }
+
+        return false
+        } catch(error: any) {
+            console.log(error)
+            throw error
+        }
+    }
+
+    /**
      * Logs in a player with the given login data.
      * @param {LoginData} loginData - The data required for player login.
      * @throws Will throw an error if login fails.
@@ -92,34 +128,29 @@ class AuthService {
      */
     public async loginPlayer(loginData: LoginData): Promise<SafeUserData> {
         try {
-            const { userName, password } = loginData;
+            const { username, password } = loginData;
 
             // Get a connection to RethinkDB
             const connection: Connection = await getRethinkDB();
 
             // Retrieve the user data from the database
-            const cursor: Cursor = await rt
+            const user = await rt
                 .db('players')
                 .table('playerData')
-                .filter({ userName })
+                .filter({ username })
                 .run(connection);
-
-            // Get the first user from the cursor
-            const user: UserData | null = await cursor.next();
 
             // Check if user exists
             if (!user) {
                 throw new Error("User not found");
             }
 
-            // Compare the provided password with the stored hashed password
-            const isPasswordValid: boolean = await verify(user.hashedPassword, password);
+            const { hashedPassword, ...safeProperties  } = await user.next() as unknown as UserData
+            const isPasswordValid: boolean = await verify(hashedPassword, password);
 
             if (!isPasswordValid) {
                 throw new Error("Incorrect password");
             }
-
-            const { hashedPassword, ...safeProperties } = user as UserData;
 
             return safeProperties as SafeUserData;
         } catch (error: any) {
