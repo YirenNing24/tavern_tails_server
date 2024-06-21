@@ -4,30 +4,27 @@ import { getRethinkDB } from "../db/rethink";
 
 //** INTERFACE IMPORT */
 import type { PlayerStats } from "./player.interface";
-import { playerLevel, playerStatPoints } from "./player.create";
+import { playerLevel, playerStatPoints, playerCurrency } from "./player.create";
 
 
 
 class PlayerServices {
-
-
-    public async createplayer(username: string) {
+    public async createplayer(username: string): Promise<void> {
         try {
-
-            // Get a connection to RethinkDB
-            const connection: Connection = await getRethinkDB();
 
             const newPlayer: PlayerStats = {
                 username,
                 playerLevel,
-                playerStatPoints
+                playerStatPoints,
+                playerCurrency
             }
-
+            // Get a connection to RethinkDB
+            const connection: Connection = await getRethinkDB();
             await rt
-                .db('players')
-                .table('playerStats')
-                .insert(newPlayer)
-                .run(connection);
+            .db('players')
+            .table('playerStats')
+            .insert(newPlayer)
+            .run(connection);
 
         } catch(error: any) {
             console.log(error)

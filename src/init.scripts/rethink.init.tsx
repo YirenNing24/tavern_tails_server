@@ -4,7 +4,7 @@ import { getRethinkDB } from "../db/rethink";
 
 
 // Replace this array with your actual data
-const tableNames: string[] = ["playerData", "playerStats"];
+const tableNames: string[] = ["playerData", "playerStats", "playerCurrency"];
 
 const createDatabaseAndTables = async (): Promise<void> => {
   try {
