@@ -25,12 +25,10 @@ export const KDB: { host: string | undefined; port: string | number; password: s
 
 // Thirdweb SDK Configuration
 export const SECRET_KEY: string = process.env.SECRET_KEY || ""
-
-export const CATNIP_TOKEN: string = '0xaADF62cd6517E88C612890434866056751E8e849';
-
 export const PRIVATE_KEY: string  = process.env.THIRDWEB_AUTH_PRIVATE_KEY || ""
-
 export const GOOGLE_CLIENT_ID: string  = process.env.GOOGLE_CLIENT_ID || ""
 export const GOOGLE_CLIENT_SECRET: string = process.env.GOOGLE_CLIENT_SECRET || ""
-
 export const ENGINE_ACCESS_TOKEN: string = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIweEM4RmIxNUVkQTQ1OUJlQWJlNjgwMTE2NzFCMjUxNzYyZkU1QzlCMzMiLCJzdWIiOiIweDBBZkYxMEEyMjIwYWEyN2ZCZTgzQzY3NjkxM2FlYmViMzgwMURmQjYiLCJhdWQiOiJ0aGlyZHdlYi5jb20iLCJleHAiOjQ4NzI1NTk4OTYsIm5iZiI6MTcxODk1OTg5NiwiaWF0IjoxNzE4OTU5ODk2LCJqdGkiOiI1NTAzZWE1My01ZWQ4LTRlMTctYjc4Zi1lM2VlODAxNTQ2OGMiLCJjdHgiOnsicGVybWlzc2lvbnMiOiJBRE1JTiJ9fQ.MHhhYmJmOGRiNDEzNjQ0ODY2NGIxNDFmZWE5NjM5MWQ1NjkwODY1NjI3NWVmYzc5NzYxMGU5NmZiODM0MGQzYWJlMTUwZTQ1ZDA5NGFiMDk5ZmRhNGJhY2Y1OTRkYTU2MTEzYmI0ZTEwNmRhMTViMDYwNjliYmFlZGIwNDVjM2RmODFi"
+
+
+export const CATNIP_TOKEN: string = '0xaADF62cd6517E88C612890434866056751E8e849';

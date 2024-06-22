@@ -15,6 +15,10 @@ import { hash, verify } from "argon2";
 import type { LoginData, RegistrationData, SafeUserData, UserData } from "./auth.interface";
 import { SuccessMessage } from "../config/output";
 
+//**SERVICE IMPORT */
+import PlayerServices from "../player.services/player.service";
+import { newPlayer } from "../player.services/player.create";
+
 class AuthService {
 
     /**
@@ -28,9 +32,7 @@ class AuthService {
             const { username, password } = registrationData;
 
             const hashedPassword: string = await hash(password);
-
             const usedUsername: boolean = await this.checkUsername(username);
-
             if (usedUsername) {
                 throw new Error("Username is already used")
             }
@@ -38,24 +40,15 @@ class AuthService {
             // Create a new wallet for the player
             const walletAddress: string = await this.createPlayerWallet(username);
 
-            // Construct the new player data
-            const newPlayer: UserData = { 
-                username,
-                hashedPassword,
-                walletAddress,
-                accountType: "tails",
-                createdAt: Date.now()
+            const playerNew: UserData = { ...newPlayer, username, hashedPassword, walletAddress, accountType: "tails"
+
             };
 
-            // Get a connection to RethinkDB
             const connection: Connection = await getRethinkDB();
+            await rt.db('players').table('playerData').insert(playerNew).run(connection);
 
-            // Insert the new player data into the 'playerData' table in the 'beats' database
-            await rt
-                .db('players')
-                .table('playerData')
-                .insert(newPlayer)
-                .run(connection);
+            const playerSerivces: PlayerServices = new PlayerServices();
+            await playerSerivces.createPlayer(username);
 
             return new SuccessMessage("Registration successful");
         } catch (error: any) {

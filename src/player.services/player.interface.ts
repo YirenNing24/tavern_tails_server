@@ -5,7 +5,6 @@ export interface PlayerStats {
     username: string;
     playerLevel: PlayerLevel;
     playerStatPoints: PlayerStatPoints;
-    playerCurrency: PlayerCurrency;
 }
 
 /**
@@ -34,6 +33,7 @@ export interface PlayerStatPoints {
  * Interface for player currency.
  */
 export interface PlayerCurrency {
+    username?: string;
     gold: number;
     gem: number;
     catnip: number;

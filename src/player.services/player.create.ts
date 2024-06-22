@@ -34,3 +34,9 @@ export const playerCurrency: PlayerCurrency = {
     catnip: 0
 
 }
+
+export const newPlayer = { 
+    accountType: "tails",
+    createdAt: Date.now()
+};
+
