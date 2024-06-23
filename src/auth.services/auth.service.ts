@@ -29,20 +29,19 @@ class AuthService {
      */
     public async registerPlayer(registrationData: RegistrationData): Promise<SuccessMessage> {
         try {
+
             const { username, password } = registrationData;
 
             const hashedPassword: string = await hash(password);
             const usedUsername: boolean = await this.checkUsername(username);
             if (usedUsername) {
-                throw new Error("Username is already used")
+                throw { error: "Username is already in use" }
             }
 
             // Create a new wallet for the player
             const walletAddress: string = await this.createPlayerWallet(username);
 
-            const playerNew: UserData = { ...newPlayer, username, hashedPassword, walletAddress, accountType: "tails"
-
-            };
+            const playerNew: UserData = { ...newPlayer, username, hashedPassword, walletAddress, accountType: "tails" };
 
             const connection: Connection = await getRethinkDB();
             await rt.db('players').table('playerData').insert(playerNew).run(connection);
@@ -95,12 +94,12 @@ class AuthService {
             const connection: Connection = await getRethinkDB();
 
             // Check if the username already exists in the database
-            const cursor: Cursor = await rt
+            const cursor = await rt
             .db('players')
             .table('playerData')
-            .filter({ username })
+            .get(username)
             .run(connection);
-            const existingUser: UserData | null = await cursor.next();
+            const existingUser = cursor
 
             if (existingUser) {
                 return true
@@ -120,36 +119,37 @@ class AuthService {
      * @returns {SafeUserData} - The safe user data excluding sensitive information.
      */
     public async loginPlayer(loginData: LoginData): Promise<SafeUserData> {
-        try {
-            const { username, password } = loginData;
+         try {
+             const { username, password } = loginData;
 
-            // Get a connection to RethinkDB
-            const connection: Connection = await getRethinkDB();
+             // Get a connection to RethinkDB
+             const connection: Connection = await getRethinkDB();
 
-            // Retrieve the user data from the database
-            const user = await rt
-                .db('players')
-                .table('playerData')
-                .filter({ username })
-                .run(connection);
+             // Retrieve the user data from the database
+             const user = await rt
+                 .db('players')
+                 .table('playerData')
+                 .get(username)
+                 .run(connection) as UserData
 
-            // Check if user exists
-            if (!user) {
-                throw new Error("User not found");
-            }
+             // Check if user exists
 
-            const { hashedPassword, ...safeProperties  } = await user.next() as unknown as UserData
-            const isPasswordValid: boolean = await verify(hashedPassword, password);
+             if (!user) {
+                throw { error: "Username not found" }
+             }
 
-            if (!isPasswordValid) {
-                throw new Error("Incorrect password");
-            }
+             const { hashedPassword, ...safeProperties  } = await user
+             const isPasswordValid: boolean = await verify(hashedPassword, password);
 
-            return safeProperties as SafeUserData;
-        } catch (error: any) {
-            console.error("Error logging in player:", error);
-            throw error;
-        }
+             if (!isPasswordValid) {
+                 throw new Error("Incorrect password");
+             }
+
+             return safeProperties as SafeUserData;
+         } catch (error: any) {
+             console.error("Error logging in player:", error);
+             throw error;
+         }
     }
 }
 

@@ -25,6 +25,7 @@ const auth = (app: Elysia) => {
 
     .post('/api/v1/login/tails', async ({ body }): Promise<SafeUserData> => {
 		try {
+			console.log(body)
 			const authService: AuthService = new AuthService();
 			const output: SafeUserData = await authService.loginPlayer(body);
 
