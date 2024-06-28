@@ -16,6 +16,7 @@
     "@elysiajs/cors": "^1.0.2",
     "@thirdweb-dev/engine": "^0.0.9",
     "@types/rethinkdb": "^2.3.21",
+    "@valence-corp/sprite": "^0.0.2",
     "argon2": "^0.40.3",
     "elysia": "^1.0.24",
     "rethinkdb": "^2.4.2",
